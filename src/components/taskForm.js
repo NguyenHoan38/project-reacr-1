@@ -6,67 +6,57 @@ class TaskForm extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      txtUserName: "",
-      txtPassword: '',
-      txtDescription:'',
-      sltGender:1,
-      rdlange:"en",
-      chkbStatus: false
+      name: "",
+      status: false,
     };
-    this.onHandleChange = this.onHandleChange.bind(this)
-    this.onHandleSubmit = this.onHandleSubmit.bind(this)
+    // this.onHandleChange = this.onHandleChange.bind(this)
+    // this.onHandleSubmit = this.onHandleSubmit.bind(this)
   }
-  onHandleChange(e) {
+  onCloseForm =() =>{
+      this.props.onCloseForm();
+  }
+//   onSubmit =() =>{
+//     this.props.onSubmit();
+// }
+  onChange=(e)=>{
     var target = e.target;
     var name = target.name;
-    console.log("target target target", target.type);
-    var value = target.type ==='checkbox'? target.checked: target.value;
+    var value = target.value;
     this.setState({
-     [name]:value
+        [name] :value
     })
   }
-  onHandleSubmit(e) {
-    e.preventDefault();
-    console.log(this.state);
-    // this.setState({
-    //   userName: e.target.value
-    // })
+  onSubmit =(e) =>{
+     e.preventDefault();
+      console.log(this.state);
+      this.props.onSubmit();
   }
   render() {
     return (
-      <div className="container">
-        <div className="text-center">
-          <h1>Quản Lý Công Việc</h1>
-          <hr />
-        </div>
-        <div className="row">
-          <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            <div className="panel panel-warning">
-              <div className="panel-heading">
-                <h3 className="panel-title">Thêm Công Việc111</h3>
-              </div>
-              <div className="panel-body">
-                <form>
-                  <div className="form-group">
-                    <label>Tên :</label>
-                    <input type="text" className="form-control" />
-                  </div>
-                  <label>Trạng Thái :</label>
-                  <select className="form-control" required="required">
-                    <option value={1}>Kích Hoạt</option>
-                    <option value={0}>Ẩn</option>
-                  </select>
-                  <br />
-                  <div className="text-center">
-                    <button type="submit" className="btn btn-warning">Thêm</button>&nbsp;
-                    <button type="submit" className="btn btn-danger">Hủy Bỏ</button>
-                  </div>
-                </form>
-              </div>
+        <div className="panel panel-warning">
+            <div className="panel-heading ">
+                <h3 className="panel-title">Thêm Công Việc</h3>
+                <span onClick={this.onCloseForm}>x</span>
             </div>
-          </div>
+            <div className="panel-body">
+            <form onSubmit={this.onSubmit}>
+                <div className="form-group">
+                <label>Tên :</label>
+                <input type="text" className="form-control" name="name" value={this.state.name} onChange={this.onChange} />
+                </div>
+                <label>Trạng Thái :</label>
+                <select className="form-control" required="required" name="status" value={this.state.status} onChange={this.onChange}>
+                <option value={true}>Kích Hoạt</option>
+                <option value={false}>Ẩn</option>
+                </select>
+                <br />
+                <div className="text-center">
+                <button type="submit" className="btn btn-warning">Thêm</button>&nbsp;
+                <button type="submit" className="btn btn-danger">Hủy Bỏ</button>
+                </div>
+            </form>
+            </div>
         </div>
-      </div>
     );
   }
 }
